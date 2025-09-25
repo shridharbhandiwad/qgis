@@ -16,6 +16,7 @@
 #include <qgslayertreeview.h>
 #include <qgsmapcanvas.h>
 #include <qgsmaplayer.h>
+#include <qgsrectangle.h>
 #include <qgsmaptoolidentifyfeature.h>
 #include <qgsmaptoolpan.h>
 #include <qgsmaptoolzoom.h>
@@ -44,7 +45,7 @@ MainWindow::~MainWindow() = default;
 void MainWindow::createUi() {
   m_canvas = new QgsMapCanvas(this);
   m_canvas->setCanvasColor(Qt::white);
-  m_canvas->setCrsTransformEnabled(true);
+  // CRS transforms are automatic in modern QGIS; no explicit toggle needed
   m_canvas->setDestinationCrs(QgsCoordinateReferenceSystem::fromEpsgId(4326));
 
   setCentralWidget(m_canvas);

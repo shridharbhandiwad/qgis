@@ -13,12 +13,11 @@ HEADERS += \
 
 INCLUDEPATH += src
 
-# Try pkg-config for QGIS libs first
+# Try pkg-config for QGIS libs first, but only if entries exist
 CONFIG += link_pkgconfig
-PKGCONFIG += qgis_core qgis_gui qgis_analysis
-
-# Fallback if pkg-config entries are missing
-isEmpty(PKGCONFIG) {
+packagesExist(qgis_core qgis_gui qgis_analysis) {
+    PKGCONFIG += qgis_core qgis_gui qgis_analysis
+} else {
     message("pkg-config for QGIS not found, using fallback include/lib paths")
     INCLUDEPATH += /usr/include/qgis
     LIBS += -lqgis_gui -lqgis_core -lqgis_analysis
@@ -27,6 +26,5 @@ isEmpty(PKGCONFIG) {
 # RPATH to common system lib directories (adjust if custom install)
 QMAKE_RPATHDIR += /usr/lib /usr/lib/x86_64-linux-gnu
 
-# Define this to reduce virtual overrides issues with older compilers
-DEFINES += QT_NO_KEYWORDS
+# Keep Qt keywords enabled to support Qt signal/slot syntax in QGIS headers
 
